@@ -36,6 +36,12 @@ public class ClienteController {
 		return service.buscarClientes();
 	}
 	
+	@GetMapping("/cliente/{id}")
+	@ResponseStatus(HttpStatus.OK)
+	public Cliente buscaCliente(@PathVariable("id")Long id) {
+		return service.buscarCliente(id);
+	}
+	
 	@PostMapping("/cliente")
 	@ResponseStatus(HttpStatus.CREATED)
 	public void salvarCliente(@RequestBody Cliente cliente) {

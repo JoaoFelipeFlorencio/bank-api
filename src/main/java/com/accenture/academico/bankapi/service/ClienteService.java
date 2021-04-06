@@ -39,7 +39,7 @@ public class ClienteService {
 	}
 
 	public void atualizarCliente(long id, Cliente cliente) {
-		Cliente clienteBanco = this.repository.findById(id).orElseThrow(()-> new ResponseStatusException(HttpStatus.BAD_REQUEST, "Erro ao pesquisar o cliente"));
+		Cliente clienteBanco = this.buscarCliente(id);
 		cliente.setId(null);
 		if(cliente.getCpf()!=null) {
 			Validador.isCpf(cliente.getCpf());
@@ -52,8 +52,12 @@ public class ClienteService {
 	}
 
 	public void removerCliente(Long id ) {
-		Cliente clienteBanco = this.repository.findById(id).orElseThrow(()-> new ResponseStatusException(HttpStatus.BAD_REQUEST, "Erro ao pesquisar o cliente"));
+		Cliente clienteBanco = this.buscarCliente(id);
 		this.repository.delete(clienteBanco);
+	}
+	
+	public Cliente buscarCliente(Long id) {
+		return this.repository.findById(id).orElseThrow(()-> new ResponseStatusException(HttpStatus.BAD_REQUEST, "Erro ao pesquisar o cliente"));
 	}
 	
 	private void checkInputs (Cliente cliente) {
