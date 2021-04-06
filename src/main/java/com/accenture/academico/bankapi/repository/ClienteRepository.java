@@ -8,4 +8,5 @@ import com.accenture.academico.bankapi.model.Cliente;
 @Repository
 public interface ClienteRepository extends JpaRepository<Cliente, Long> {
 	
+	public Cliente findTop1ByCpf(String cpf);
 }
