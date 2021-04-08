@@ -38,7 +38,7 @@ public class AgenciaService {
 		Agencia agenciaBanco = this.buscarAgencia(id);
 		agencia.setId(null);
 		
-		if(agencia.getNumero() !=null) {
+		if(agencia.getNumero() !=null && !(agencia.getNumero().equals(agenciaBanco.getNumero()))) {
 			numeroIsRegistred(agencia.getNumero());
 		}
 		

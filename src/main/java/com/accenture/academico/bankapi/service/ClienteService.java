@@ -41,7 +41,7 @@ public class ClienteService {
 	public void atualizarCliente(long id, Cliente cliente) {
 		Cliente clienteBanco = this.buscarCliente(id);
 		cliente.setId(null);
-		if(cliente.getCpf()!=null) {
+		if(cliente.getCpf()!=null && !(cliente.getCpf().equals(clienteBanco.getCpf()))) {
 			Validador.isCpf(cliente.getCpf());
 			cpfIsRegistred(cliente.getCpf());
 		}

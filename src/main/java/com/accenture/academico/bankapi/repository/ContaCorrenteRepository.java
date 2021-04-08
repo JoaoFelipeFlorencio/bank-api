@@ -1,8 +1,12 @@
 package com.accenture.academico.bankapi.repository;
 
-import org.springframework.stereotype.Repository;
+import org.springframework.data.jpa.repository.JpaRepository;
 
-@Repository
-public interface ContaCorrenteRepository {
+import com.accenture.academico.bankapi.model.ContaCorrente;
 
+
+public interface ContaCorrenteRepository  extends JpaRepository<ContaCorrente, Long>{
+
+	public ContaCorrente findTop1ByNumero(String numero);
+	
 }
