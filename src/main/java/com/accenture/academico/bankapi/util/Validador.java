@@ -38,4 +38,10 @@ public class Validador {
         	throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "CPF invalido");
 	}
 	
+	public static void isNumeroValid(String numero) {
+		if(!numero.matches("[0-9]{4}")) {
+			throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Numero em formato invalido. ex:9999");
+		}
+	}
+	
 }

@@ -53,7 +53,11 @@ public class ClienteService {
 
 	public void removerCliente(Long id ) {
 		Cliente clienteBanco = this.buscarCliente(id);
-		this.repository.delete(clienteBanco);
+		try {
+			this.repository.delete(clienteBanco);
+		}catch(Exception e) {
+			throw new  ResponseStatusException(HttpStatus.BAD_REQUEST, "Cliente ainda possui contas ativas");
+		}
 	}
 	
 	public Cliente buscarCliente(Long id) {

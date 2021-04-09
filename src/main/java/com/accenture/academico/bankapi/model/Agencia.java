@@ -15,7 +15,7 @@ public class Agencia {
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;
 
-	@Column(name = "numero", nullable = false, unique = true, length = 45)
+	@Column(name = "numero", nullable = false, unique = true, length = 4)
 	private String numero;
 
 	@Column(name = "endereco", nullable = false, length = 45)

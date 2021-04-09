@@ -15,6 +15,7 @@ import org.springframework.web.server.ResponseStatusException;
 
 import com.accenture.academico.bankapi.model.Agencia;
 import com.accenture.academico.bankapi.repository.AgenciaRepository;
+import com.accenture.academico.bankapi.util.Validador;
 
 
 
@@ -30,6 +31,7 @@ public class AgenciaService {
 	
 	public void salvarAgencia(Agencia agencia) {
 		this.checkInputs(agencia);
+		Validador.isNumeroValid(agencia.getNumero());
 		this.numeroIsRegistred(agencia.getNumero());
 		repository.save(agencia);
 	}
@@ -39,6 +41,7 @@ public class AgenciaService {
 		agencia.setId(null);
 		
 		if(agencia.getNumero() !=null && !(agencia.getNumero().equals(agenciaBanco.getNumero()))) {
+			Validador.isNumeroValid(agencia.getNumero());
 			numeroIsRegistred(agencia.getNumero());
 		}
 		
@@ -49,7 +52,11 @@ public class AgenciaService {
 
 	public void removerAgencia(Long id ) {
 		Agencia agenciaBanco = this.buscarAgencia(id);
-		this.repository.delete(agenciaBanco);
+		try {
+		 this.repository.delete(agenciaBanco);
+		}catch(Exception e) {
+			throw new  ResponseStatusException(HttpStatus.BAD_REQUEST, "Agencia ainda possui contas ativas");
+		}
 	}
 	
 	public Agencia buscarAgencia(Long id) {
