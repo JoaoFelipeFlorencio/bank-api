@@ -1,5 +1,7 @@
 package com.accenture.academico.bankapi.model;
 
+import java.math.BigDecimal;
+
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -27,7 +29,7 @@ public class Extrato {
 	private String operacao;
 
 	@Column(name = "valor")
-	private double valor;
+	private BigDecimal valor;
 
 	@ManyToOne
 	@OnDelete(action = OnDeleteAction.CASCADE)
@@ -58,11 +60,11 @@ public class Extrato {
 		this.operacao = operacao;
 	}
 
-	public double getValor() {
+	public BigDecimal getValor() {
 		return valor;
 	}
 
-	public void setValor(double valor) {
+	public void setValor(BigDecimal valor) {
 		this.valor = valor;
 	}
 

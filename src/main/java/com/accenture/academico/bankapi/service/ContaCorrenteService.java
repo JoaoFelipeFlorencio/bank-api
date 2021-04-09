@@ -1,6 +1,7 @@
 package com.accenture.academico.bankapi.service;
 
 import java.beans.PropertyDescriptor;
+import java.math.BigDecimal;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.HashSet;
@@ -44,7 +45,7 @@ public class ContaCorrenteService {
 	public void criarConta(ContaCorrente conta) {
 		this.checkInputs(conta);
 		this.numeroIsRegistred(conta.getNumero());
-		conta.setSaldo(0);
+		conta.setSaldo(new BigDecimal(0));
 
 		try {
 			this.repository.save(conta);
@@ -76,10 +77,10 @@ public class ContaCorrenteService {
 
 	public void depositarValor(Long id, Extrato operacao) {
 		ContaCorrente contaBanco = this.buscarConta(id);
-		if (operacao.getValor() <= 0) {
+		if (operacao.getValor().doubleValue() <= 0) {
 			throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Valor da operacao e invalido");
 		}
-		contaBanco.setSaldo(contaBanco.getSaldo() + operacao.getValor());
+		contaBanco.setSaldo(contaBanco.getSaldo().add(operacao.getValor()));
 		this.repository.save(contaBanco);
 		operacao.setConta(contaBanco);
 		operacao.setOperacao(Operacoes.DEPOSITO.toString());
@@ -89,17 +90,17 @@ public class ContaCorrenteService {
 
 	public void sacarValor(Long id, Extrato operacao) {
 		ContaCorrente contaBanco = this.buscarConta(id);
-		if (operacao.getValor() <= 0) {
+		if (operacao.getValor().doubleValue() <= 0) {
 			throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Valor da operacao e invalido");
 		}
-		if (operacao.getValor() > contaBanco.getSaldo()) {
+		if (operacao.getValor().doubleValue() > contaBanco.getSaldo().doubleValue()) {
 			throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Saldo insuficiente");
 		}
-		contaBanco.setSaldo(contaBanco.getSaldo() - operacao.getValor());
+		contaBanco.setSaldo(contaBanco.getSaldo().subtract(operacao.getValor()));
 		this.repository.save(contaBanco);
 		operacao.setConta(contaBanco);
 		operacao.setOperacao(Operacoes.SAQUE.toString());
-		operacao.setValor(operacao.getValor() * -1);
+		operacao.setValor(operacao.getValor().multiply(new BigDecimal(-1)));
 		operacao.setDate(dateFormat.format(LocalDateTime.now()));
 		this.extratoService.inserirExtrato(operacao);
 	}
@@ -109,14 +110,14 @@ public class ContaCorrenteService {
 		ContaCorrente contaDestino = this.repository.findById(idDestino)
 				.orElseThrow(() -> new ResponseStatusException(HttpStatus.BAD_REQUEST,
 						"Nao foi possivel encontrar a conta destino"));
-		if (operacao.getValor() <= 0) {
+		if (operacao.getValor().doubleValue() <= 0) {
 			throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Valor da operacao e invalido");
 		}
-		if (operacao.getValor() > contaOrigem.getSaldo()) {
+		if (operacao.getValor().doubleValue() > contaOrigem.getSaldo().doubleValue()) {
 			throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Saldo insuficiente");
 		}
-		contaOrigem.setSaldo(contaOrigem.getSaldo() - operacao.getValor());
-		contaDestino.setSaldo(contaDestino.getSaldo() + operacao.getValor());
+		contaOrigem.setSaldo(contaOrigem.getSaldo().subtract(operacao.getValor()));
+		contaDestino.setSaldo(contaDestino.getSaldo().add(operacao.getValor()));
 		this.repository.save(contaOrigem);
 		this.repository.save(contaDestino);
 
@@ -129,7 +130,7 @@ public class ContaCorrenteService {
 
 		operacao.setConta(contaOrigem);
 		operacao.setOperacao(Operacoes.TRANSFERENCIA.toString());
-		operacao.setValor(operacao.getValor() * -1);
+		operacao.setValor(operacao.getValor().multiply(new BigDecimal(-1)));
 		operacao.setDate(dateFormat.format(LocalDateTime.now()));
 		this.extratoService.inserirExtrato(operacao);
 
@@ -139,9 +140,9 @@ public class ContaCorrenteService {
 		ContaCorrente contaBanco = this.buscarConta(id);
 		List<Extrato> extrato = this.extratoService.buscarExtrato(id);
 		if (!extrato.isEmpty()) {
-			double saldo = 0;
+			BigDecimal saldo = new BigDecimal(0);
 			for (Extrato operacao : extrato) {
-				saldo = saldo + operacao.getValor();
+				saldo = saldo.add(operacao.getValor());
 			}
 			contaBanco.setSaldo(saldo);
 			this.repository.save(contaBanco);

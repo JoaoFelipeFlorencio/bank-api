@@ -1,5 +1,6 @@
 package com.accenture.academico.bankapi.model;
 
+import java.math.BigDecimal;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -10,28 +11,26 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
-
-
 @Entity
-@Table(name="contaCorrente")
+@Table(name = "contaCorrente")
 public class ContaCorrente {
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;
-	
-	@Column(name="numero", nullable=false,length=45, unique = true)
+
+	@Column(name = "numero", nullable = false, length = 45, unique = true)
 	private String numero;
-	
-	@Column(name ="saldo", nullable=false)
-	private double saldo;
-	
+
+	@Column(name = "saldo", nullable = false)
+	private BigDecimal saldo;
+
 	@ManyToOne
-	@JoinColumn(name="cliente_id",nullable =false)
+	@JoinColumn(name = "cliente_id", nullable = false)
 	private Cliente cliente;
-	
+
 	@ManyToOne
-	@JoinColumn(name="agencia_id",nullable=false)
+	@JoinColumn(name = "agencia_id", nullable = false)
 	private Agencia agencia;
 
 	public Long getId() {
@@ -50,11 +49,11 @@ public class ContaCorrente {
 		this.numero = numero;
 	}
 
-	public double getSaldo() {
+	public BigDecimal getSaldo() {
 		return saldo;
 	}
 
-	public void setSaldo(double saldo) {
+	public void setSaldo(BigDecimal saldo) {
 		this.saldo = saldo;
 	}
 
