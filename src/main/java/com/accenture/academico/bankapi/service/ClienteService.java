@@ -61,7 +61,7 @@ public class ClienteService {
 	}
 	
 	public Cliente buscarCliente(Long id) {
-		return this.repository.findById(id).orElseThrow(()-> new ResponseStatusException(HttpStatus.BAD_REQUEST, "Erro ao pesquisar o cliente"));
+		return this.repository.findById(id).orElseThrow(()-> new ResponseStatusException(HttpStatus.NOT_FOUND, "Erro ao pesquisar o cliente"));
 	}
 	
 	private void checkInputs (Cliente cliente) {

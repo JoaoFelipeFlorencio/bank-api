@@ -39,7 +39,7 @@ public class ContaCorrenteService {
 
 	public ContaCorrente buscarConta(Long id) {
 		return this.repository.findById(id)
-				.orElseThrow(() -> new ResponseStatusException(HttpStatus.BAD_REQUEST, "Erro ao pesquisar a conta"));
+				.orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Erro ao pesquisar a conta"));
 	}
 
 	public void criarConta(ContaCorrente conta) {

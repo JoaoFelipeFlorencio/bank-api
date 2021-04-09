@@ -60,7 +60,7 @@ public class AgenciaService {
 	}
 	
 	public Agencia buscarAgencia(Long id) {
-		return this.repository.findById(id).orElseThrow(()-> new ResponseStatusException(HttpStatus.BAD_REQUEST, "Erro ao pesquisar a agencia"));
+		return this.repository.findById(id).orElseThrow(()-> new ResponseStatusException(HttpStatus.NOT_FOUND, "Erro ao pesquisar a agencia"));
 	}
 	
 	private void checkInputs (Agencia agencia) {
