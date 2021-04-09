@@ -64,7 +64,7 @@ public class AgenciaService {
 	}
 	
 	private void checkInputs (Agencia agencia) {
-		if(agencia.getNumero()=="" || agencia.getNumero()==null || agencia.getEndereco()=="" || agencia.getEndereco()==null || agencia.getTelefone()==""|| agencia.getTelefone()==null) {
+		if(agencia.getNumero().trim()=="" || agencia.getNumero()==null || agencia.getEndereco().trim()=="" || agencia.getEndereco()==null || agencia.getTelefone().trim()==""|| agencia.getTelefone()==null) {
 			throw new  ResponseStatusException(HttpStatus.BAD_REQUEST, "Campos em branco ou nulos");
 		}
 		

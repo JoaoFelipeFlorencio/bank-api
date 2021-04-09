@@ -65,7 +65,7 @@ public class ClienteService {
 	}
 	
 	private void checkInputs (Cliente cliente) {
-		if(cliente.getCpf()=="" || cliente.getCpf()==null || cliente.getNome()=="" || cliente.getNome()==null || cliente.getTelefone()==""|| cliente.getTelefone()==null) {
+		if(cliente.getCpf().trim()=="" || cliente.getCpf()==null || cliente.getNome().trim()=="" || cliente.getNome()==null || cliente.getTelefone().trim()==""|| cliente.getTelefone()==null) {
 			throw new  ResponseStatusException(HttpStatus.BAD_REQUEST, "Campos em branco ou nulos");
 		}
 		

@@ -157,7 +157,7 @@ public class ContaCorrenteService {
 	}
 
 	private void checkInputs(ContaCorrente conta) {
-		if (conta.getNumero() == "" || conta.getNumero() == null || conta.getAgencia().getId() == null
+		if (conta.getNumero().trim() == "" || conta.getNumero() == null || conta.getAgencia().getId() == null
 				|| conta.getCliente().getId() == null) {
 			throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Campos em branco ou nulos");
 		}
